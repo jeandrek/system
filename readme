@@ -7,6 +7,7 @@ To build everything and install it:
   package/package build
   su
   PACKAGE_DIRECTORY=`pwd`
+  TARGET=x86_64
   ROOT= # put root directory for new system here
   package/package install
 
