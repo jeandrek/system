@@ -1,0 +1,13 @@
+This is a mini GNU/Linux distribution for the Scratch competition: https://scratch.mit.edu/discuss/topic/259060/
+
+To build everything and install it:
+  PACKAGE_DIRECTORY=`pwd`
+  TARGET=x86_64
+  (cd package; gcc -O3 -Wall package.c -o package)
+  package/package build
+  su
+  PACKAGE_DIRECTORY=`pwd`
+  ROOT= # put root directory for new system here
+  package/package install
+
+You can now load a bootloader on it, configure the bootloader, and boot it.

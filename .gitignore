@@ -1,0 +1,9 @@
+linux
+glibc
+coreutils
+ncurses
+bash
+sed
+util-linux
+shadow
+mksh

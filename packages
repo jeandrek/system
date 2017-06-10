@@ -1,0 +1,112 @@
+package
+  build_package () {
+    cd package
+    gcc -O3 -Wall package.c -o package
+  }
+  install_package () {
+    install package/package $ROOT/usr/bin/
+  }
+
+linux
+  build_package () {
+    tarball https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.11.2.tar.xz
+    make mrproper
+    cp ../config/$TARGET-linux-config .config
+    make
+  }
+  install_package () {
+    install linux/arch/$TARGET/boot/bzImage $ROOT/boot/vmlinuz
+  }
+
+glibc
+  build_package () {
+    tarball http://ftp.gnu.org/gnu/glibc/glibc-2.25.tar.xz
+    mkdir -p build
+    cd build
+    ../configure --prefix=/usr
+    make
+  }
+  install_package () {
+    cd glibc/build
+    make install DESTDIR=$ROOT
+  }
+
+coreutils
+  build_package () {
+    tarball http://ftp.gnu.org/gnu/coreutils/coreutils-8.27.tar.xz
+    ./configure --prefix=/usr
+    make
+  }
+  install_package () {
+    cd coreutils
+    make install DESTDIR=$ROOT
+  }
+
+ncurses
+  build_package () {
+    tarball http://ftp.gnu.org/gnu/ncurses/ncurses-6.0.tar.gz
+    ./configure --prefix=/usr --libdir=/lib64 --enable-widec --with-shared \
+                --without-normal --with-abi-version=5 CPPFLAGS=-P
+    make
+  }
+  install_package () {
+    cd ncurses
+    make install DESTDIR=$ROOT
+  }
+
+bash
+  build_package () {
+    tarball http://ftp.gnu.org/gnu/bash/bash-4.4.tar.gz
+    ./configure --prefix=/usr
+    make
+  }
+  install_package () {
+    cd bash
+    make install DESTDIR=$ROOT
+    mv $ROOT/usr/bin/bash $ROOT/bin/
+    grep -x /bin/bash $ROOT/etc/shells >/dev/null || echo /bin/bash >>$ROOT/etc/shells
+  }
+
+sed
+  build_package () {
+    tarball http://ftp.gnu.org/gnu/sed/sed-4.4.tar.xz
+    ./configure --prefix=/usr --bindir=/bin
+    make
+  }
+  install_package () {
+    cd sed
+    make install DESTDIR=/mnt
+  }
+
+util-linux
+  build_package () {
+    tarball https://www.kernel.org/pub/linux/utils/util-linux/v2.29/util-linux-2.29.2.tar.xz
+    ./configure --prefix=/usr
+    make
+  }
+  install_package () {
+    cd util-linux
+    make install DESTDIR=$ROOT
+  }
+
+shadow
+  build_package () {
+    tarball https://github.com/shadow-maint/shadow/releases/download/4.5/shadow-4.5.tar.xz
+    ./configure --prefix=/usr --sysconfdir=/etc
+    make
+  }
+  install_package () {
+    make install DESTDIR=$ROOT
+  }
+
+mksh
+  build_package () {
+    tarball https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R50f.tgz
+    /bin/sh Build.sh
+  }
+  install_package () {
+    cd mksh
+    install mksh $ROOT/bin/mksh
+    grep -x /bin/mksh $ROOT/etc/shells >/dev/null || echo /bin/mksh >>$ROOT/etc/shells
+    ln -s $ROOT/bin/mksh $ROOT/bin/sh
+  }
