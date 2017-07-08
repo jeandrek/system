@@ -58,7 +58,7 @@ int main(int argc, const char *argv[])
   setenv("TARGET", uname_data.machine, 0);
   setenv("ROOT", "", 0);
 
-  snprintf(file_path, 128, "%s/packages", getenv("PACKAGE_DIRECTORY"));
+  snprintf(file_path, 128, "%s/PACKAGES", getenv("PACKAGE_DIRECTORY"));
   file = fopen(file_path, "r");
   follow_command(file, argv + 1, argc - 1);
   fclose(file);
