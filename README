@@ -1,6 +1,7 @@
 This is a mini GNU/Linux distribution for the Scratch competition: https://scratch.mit.edu/discuss/topic/259060/
 
 To build everything and install it:
+
   export PACKAGE_DIRECTORY=`pwd`
   export TARGET=x86_64
   (cd package; gcc -O3 -Wall package.c -o package)
