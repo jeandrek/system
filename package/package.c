@@ -133,10 +133,12 @@ void operate_on_package(FILE *file, const char *operation, const char *package_n
   fputs(package_name, pipe);
   fputs("\"\n", pipe);
 
-  do {
+  do
+  {
     fgets(line, 128, file);
     fputs(line + 2, pipe);
-  } while (!feof(file) && fpeek(file) == ' ');
+  }
+  while (!feof(file) && fpeek(file) == ' ');
 
   fputs(operation, pipe);
   fputs("_package\n", pipe);

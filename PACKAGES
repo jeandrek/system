@@ -4,6 +4,7 @@ package
     gcc -O3 -Wall package.c -o package
   }
   install_package () {
+    mkdir -p $ROOT/usr/bin/
     install package/package $ROOT/usr/bin/
   }
 
@@ -15,6 +16,7 @@ linux
     make
   }
   install_package () {
+    mkdir -p $ROOT/boot/
     install linux/arch/$TARGET/boot/bzImage $ROOT/boot/vmlinuz
   }
 
@@ -63,6 +65,7 @@ bash
   install_package () {
     cd bash
     make install DESTDIR=$ROOT
+    mkdir -p $ROOT/bin/
     mv $ROOT/usr/bin/bash $ROOT/bin/
     grep -x /bin/bash $ROOT/etc/shells >/dev/null || echo /bin/bash >>$ROOT/etc/shells
   }
@@ -96,6 +99,7 @@ shadow
     make
   }
   install_package () {
+    cd shadow
     make install DESTDIR=$ROOT
   }
 
@@ -106,6 +110,7 @@ mksh
   }
   install_package () {
     cd mksh
+    mkdir -p $ROOT/bin/ $ROOT/etc/
     install mksh $ROOT/bin/mksh
     grep -x /bin/mksh $ROOT/etc/shells >/dev/null || echo /bin/mksh >>$ROOT/etc/shells
     ln -s $ROOT/bin/mksh $ROOT/bin/sh
